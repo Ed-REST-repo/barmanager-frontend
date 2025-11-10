@@ -1,0 +1,28 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+.user-name {
+  margin-right: 1rem;
+  font-weight: 500;
+}
+
+.brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+
+mat-toolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+
+button[mat-icon-button] {
+  margin-left: 0.5rem;
+}

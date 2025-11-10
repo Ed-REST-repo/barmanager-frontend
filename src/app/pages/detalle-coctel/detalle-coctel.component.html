@@ -1,0 +1,147 @@
+<div class="container" *ngIf="!loading && coctel">
+  
+  <!-- Header -->
+  <div class="header">
+    <button mat-icon-button (click)="volver()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>{{ coctel.coctel.nombre }}</h1>
+  </div>
+
+  <!-- Info Principal -->
+  <mat-card class="info-card">
+    <div class="coctel-icon">🍸</div>
+    <p class="descripcion">{{ coctel.coctel.descripcion }}</p>
+    
+    <div class="badges">
+      <mat-chip>{{ coctel.coctel.categoria }}</mat-chip>
+      <mat-chip>{{ coctel.coctel.dificultad }}</mat-chip>
+      <mat-chip>⏱️ {{ coctel.tiempoPreparacion }} min</mat-chip>
+      <mat-chip>🍹 {{ coctel.nivelAlcohol }}</mat-chip>
+      <mat-chip>💰 ${{ coctel.costoEstimado | number:'1.0-0' }}</mat-chip>
+    </div>
+
+    <div class="estado" *ngIf="coctel.preparable">
+      <mat-icon class="success">check_circle</mat-icon>
+      <span>¡Todos los ingredientes disponibles!</span>
+    </div>
+
+    <div class="estado warning" *ngIf="!coctel.preparable && coctel.sustituciones.length > 0">
+      <mat-icon>info</mat-icon>
+      <span>Preparable con {{ coctel.sustituciones.length }} sustituciones</span>
+    </div>
+  </mat-card>
+
+  <!-- Ingredientes -->
+  <mat-card class="section-card">
+    <h2>
+      <mat-icon>inventory_2</mat-icon>
+      Ingredientes
+    </h2>
+
+    <div class="ingredientes-list">
+      <div *ngFor="let ing of coctel.ingredientes" class="ingrediente-item"
+           [class.no-disponible]="!ing.disponible">
+        <div class="ing-icon">{{ getIngredienteIcon(ing.nombreInsumo) }}</div>
+        <div class="ing-info">
+          <h4>{{ ing.nombreInsumo }}</h4>
+          <p class="cantidad">{{ ing.cantidad }} {{ ing.unidad }}</p>
+          <p class="notas" *ngIf="ing.notas">{{ ing.notas }}</p>
+        </div>
+        <div class="ing-estado">
+          <mat-icon *ngIf="ing.disponible" class="success">check_circle</mat-icon>
+          <mat-icon *ngIf="!ing.disponible" class="error">cancel</mat-icon>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sustituciones -->
+    <div *ngIf="coctel.sustituciones.length > 0" class="sustituciones-section">
+      <h3>
+        <mat-icon>auto_fix_high</mat-icon>
+        Sustituciones Sugeridas
+      </h3>
+      <div *ngFor="let sust of coctel.sustituciones" class="sustitucion-item">
+        <p class="sust-text">
+          <strong>{{ sust.insumoOriginal }}</strong> 
+          <mat-icon>arrow_forward</mat-icon> 
+          <strong>{{ sust.insumoSustituto }}</strong>
+        </p>
+        <p class="sust-cantidad">{{ sust.cantidadNecesaria }} {{ sust.unidad }}</p>
+        <p class="sust-notas">{{ sust.notas }}</p>
+        <div class="calidad">
+          <mat-icon *ngFor="let s of getStars(sust.calidadSustitucion)">star</mat-icon>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+
+  <!-- Pasos de Preparación -->
+  <mat-card class="section-card">
+    <h2>
+      <mat-icon>restaurant_menu</mat-icon>
+      Preparación
+    </h2>
+
+    <div *ngIf="!enPreparacion" class="pasos-list">
+      <div *ngFor="let paso of coctel.pasos; let i = index" class="paso-item">
+        <div class="paso-numero">{{ i + 1 }}</div>
+        <p>{{ paso.descripcion }}</p>
+      </div>
+    </div>
+
+    <!-- Control de preparación -->
+    <div *ngIf="!enPreparacion && !completado" class="acciones">
+      <button mat-raised-button color="primary" size="large"
+              [disabled]="!coctel.preparable"
+              (click)="iniciarPreparacion()">
+        <mat-icon>play_arrow</mat-icon>
+        Comenzar Preparación
+      </button>
+    </div>
+
+    <!-- Paso actual -->
+    <div *ngIf="enPreparacion && !completado" class="paso-actual">
+      <div class="progreso">
+        <p>Paso {{ pasoActual + 1 }} de {{ coctel.pasos.length }}</p>
+        <mat-progress-bar mode="determinate" 
+                          [value]="(pasoActual + 1) / coctel.pasos.length * 100">
+        </mat-progress-bar>
+      </div>
+
+      <div class="paso-content">
+        <h3>Paso {{ pasoActual + 1 }}</h3>
+        <p class="paso-desc">{{ coctel.pasos[pasoActual].descripcion }}</p>
+        <div class="timer">
+          <mat-icon>schedule</mat-icon>
+          <span>{{ tiempoRestante }}s</span>
+        </div>
+      </div>
+
+      <div class="paso-acciones">
+        <button mat-button (click)="pasoAnterior()" 
+                [disabled]="pasoActual === 0">
+          Anterior
+        </button>
+        <button mat-raised-button color="primary" (click)="siguientePaso()">
+          {{ pasoActual === coctel.pasos.length - 1 ? 'Finalizar' : 'Siguiente' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Completado -->
+    <div *ngIf="completado" class="completado">
+      <mat-icon class="success-icon">celebration</mat-icon>
+      <h2>¡Coctel Preparado!</h2>
+      <p>Has completado exitosamente <strong>{{ coctel.coctel.nombre }}</strong></p>
+      <button mat-raised-button color="primary" (click)="volver()">
+        Volver al Catálogo
+      </button>
+    </div>
+  </mat-card>
+
+</div>
+
+<div *ngIf="loading" class="loading">
+  <mat-spinner></mat-spinner>
+</div>

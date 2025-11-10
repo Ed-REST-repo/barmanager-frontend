@@ -1,0 +1,131 @@
+<div class="inventario-container">
+  
+  <!-- Header -->
+  <div class="header">
+    <h1>📦 Gestión de Inventario</h1>
+    
+    <!-- Toggle de vista -->
+    <mat-button-toggle-group [(value)]="vistaActual" (change)="cambiarVista($event.value)">
+      <mat-button-toggle value="todos">
+        <mat-icon>inventory</mat-icon>
+        Todo el Inventario
+      </mat-button-toggle>
+      <mat-button-toggle value="bajoStock">
+        <mat-icon>warning</mat-icon>
+        Bajo Stock
+      </mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <!-- Vista Bajo Stock -->
+  <div *ngIf="!loading && vistaActual === 'bajoStock'">
+    
+    <div *ngIf="insumosBajoStock.length === 0" class="empty-state">
+      <mat-icon>check_circle</mat-icon>
+      <h3>¡Todo en orden!</h3>
+      <p>No hay insumos que requieran reposición</p>
+    </div>
+
+    <div class="insumos-grid" *ngIf="insumosBajoStock.length > 0">
+      <mat-card *ngFor="let insumo of insumosBajoStock" class="insumo-card" [class]="getEstadoClass(insumo)">
+        
+        <div class="insumo-header">
+          <div class="insumo-icon">{{ getInsumoIcon(insumo.tipo) }}</div>
+          <div class="insumo-titulo">
+            <h3>{{ insumo.nombre }}</h3>
+            <mat-chip class="tipo-chip">{{ insumo.tipo }}</mat-chip>
+          </div>
+        </div>
+
+        <mat-card-content>
+          
+          <!-- Alerta de estado -->
+          <div class="alerta" [class]="getEstadoClass(insumo)">
+            <mat-icon>{{ insumo.cantidadDisponible <= 0 ? 'error' : 'warning' }}</mat-icon>
+            <span>{{ getEstadoTexto(insumo) }}</span>
+          </div>
+
+          <!-- Estadísticas -->
+          <div class="stats">
+            <div class="stat-item">
+              <span class="label">Disponible:</span>
+              <span class="value">{{ insumo.cantidadDisponible }} {{ insumo.unidad?.abreviatura }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="label">Mínimo:</span>
+              <span class="value">{{ insumo.cantidadMinima }} {{ insumo.unidad?.abreviatura }}</span>
+            </div>
+            <div class="stat-item faltante">
+              <span class="label">Faltante:</span>
+              <span class="value">{{ getFaltante(insumo) }} {{ insumo.unidad?.abreviatura }}</span>
+            </div>
+            <div class="stat-item">
+              <span class="label">Precio:</span>
+              <span class="value">${{ insumo.precio | number:'1.0-0' }}</span>
+            </div>
+          </div>
+
+          <!-- Barra de progreso -->
+          <div class="progress-section">
+            <mat-progress-bar 
+              mode="determinate" 
+              [value]="(insumo.cantidadDisponible / insumo.cantidadMinima) * 100"
+              [color]="insumo.cantidadDisponible <= 0 ? 'warn' : 'accent'">
+            </mat-progress-bar>
+            <span class="progress-text">
+              {{ (insumo.cantidadDisponible / insumo.cantidadMinima) * 100 | number:'1.0-0' }}%
+            </span>
+          </div>
+
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="abrirDialogReponer(insumo)">
+            <mat-icon>add_circle</mat-icon>
+            Reponer Stock
+          </button>
+        </mat-card-actions>
+
+      </mat-card>
+    </div>
+  </div>
+
+  <!-- Vista Todo el Inventario -->
+  <div *ngIf="!loading && vistaActual === 'todos'">
+    <div class="insumos-list">
+      <mat-card *ngFor="let insumo of insumos" class="insumo-list-item">
+        
+        <div class="list-item-content">
+          <div class="item-icon">{{ getInsumoIcon(insumo.tipo) }}</div>
+          
+          <div class="item-info">
+            <h4>{{ insumo.nombre }}</h4>
+            <p class="tipo">{{ insumo.tipo }}</p>
+          </div>
+
+          <div class="item-cantidad">
+            <span class="cantidad-valor">{{ insumo.cantidadDisponible }}</span>
+            <span class="cantidad-unidad">{{ insumo.unidad?.abreviatura }}</span>
+          </div>
+
+          <div class="item-estado">
+            <mat-chip [class]="getEstadoClass(insumo)">
+              {{ getEstadoTexto(insumo) }}
+            </mat-chip>
+          </div>
+
+          <button mat-icon-button color="primary" (click)="abrirDialogReponer(insumo)">
+            <mat-icon>add_circle</mat-icon>
+          </button>
+        </div>
+
+      </mat-card>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,38 @@
+<div class="login-container">
+  <mat-card class="login-card">
+    <div class="login-header">
+      <div class="icon">🍹</div>
+      <h1>Bar Manager</h1>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Usuario</mat-label>
+        <input matInput formControlName="usuario">
+        <mat-icon matPrefix>person</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" formControlName="contrasena">
+        <mat-icon matPrefix>lock</mat-icon>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" type="submit" 
+              class="full-width" [disabled]="loading">
+        <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+        <span *ngIf="!loading">Iniciar Sesión</span>
+      </button>
+    </form>
+
+    <div class="demo-section">
+      <p>Prueba</p>
+      <button mat-stroked-button (click)="demo('juan_bartender', 'bar123')">
+        Bartender
+      </button>
+      <button mat-stroked-button (click)="demo('admin', 'admin123')">
+        Admin
+      </button>
+    </div>
+  </mat-card>
+</div>

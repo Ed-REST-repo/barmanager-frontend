@@ -1,0 +1,46 @@
+:host, html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+.with-navbar {
+  padding-top: 64px;
+  min-height: 100vh;
+}
+
+
+@media (max-width: 600px) {
+  .with-navbar {
+    padding-top: 56px;
+  }
+}
+
+
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+
+router-outlet, .router-outlet {
+  display: block;
+  width: 100%;
+}
+
+
+body {
+  font-family: Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: rgba(0,0,0,0.87);
+  background: #fafafa;
+}
+
+
+.section {
+  margin: 16px 0;
+}

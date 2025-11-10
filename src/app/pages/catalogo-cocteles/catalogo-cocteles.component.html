@@ -1,0 +1,46 @@
+<div class="container">
+  <div class="header">
+    <h1>🍹 Catálogo de Cocteles</h1>
+  </div>
+
+  <div *ngIf="loading" class="loading">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div *ngIf="!loading" class="grid">
+    <mat-card *ngFor="let coctel of cocteles" class="coctel-card" 
+              (click)="verDetalle(coctel.coctelId)">
+      <div class="card-icon">🍸</div>
+      
+      <mat-card-header>
+        <mat-card-title>{{ coctel.nombreCoctel }}</mat-card-title>
+        <mat-card-subtitle>{{ coctel.categoria }}</mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <p>{{ coctel.descripcion }}</p>
+        
+        <div class="disponibilidad">
+          <mat-chip [class]="getEstadoClass(coctel.estado)">
+            {{ coctel.porcentajeDisponibilidad | number:'1.0-0' }}% disponible
+          </mat-chip>
+        </div>
+
+        <div class="ingredientes">
+          <span>{{ coctel.ingredientesDisponibles }}/{{ coctel.ingredientesTotales }} ingredientes</span>
+        </div>
+
+        <div *ngIf="coctel.tieneSustituciones" class="sustituciones">
+          <mat-icon>auto_fix_high</mat-icon>
+          <span>Con sustituciones</span>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary">
+          Ver Receta
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>
