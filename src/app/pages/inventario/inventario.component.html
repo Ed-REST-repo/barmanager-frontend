@@ -54,15 +54,15 @@
           <div class="stats">
             <div class="stat-item">
               <span class="label">Disponible:</span>
-              <span class="value">{{ insumo.cantidadDisponible }} {{ insumo.unidad?.abreviatura }}</span>
+              <span class="value">{{ insumo.cantidadDisponible }} {{ insumo.unidad.abreviatura }}</span>
             </div>
             <div class="stat-item">
               <span class="label">Mínimo:</span>
-              <span class="value">{{ insumo.cantidadMinima }} {{ insumo.unidad?.abreviatura }}</span>
+              <span class="value">{{ insumo.cantidadMinima }} {{ insumo.unidad.abreviatura }}</span>
             </div>
             <div class="stat-item faltante">
               <span class="label">Faltante:</span>
-              <span class="value">{{ getFaltante(insumo) }} {{ insumo.unidad?.abreviatura }}</span>
+              <span class="value">{{ getFaltante(insumo) }} {{ insumo.unidad.abreviatura }}</span>
             </div>
             <div class="stat-item">
               <span class="label">Precio:</span>
@@ -110,7 +110,7 @@
 
           <div class="item-cantidad">
             <span class="cantidad-valor">{{ insumo.cantidadDisponible }}</span>
-            <span class="cantidad-unidad">{{ insumo.unidad?.abreviatura }}</span>
+            <span class="cantidad-unidad">{{ insumo.unidad.abreviatura }}</span>
           </div>
 
           <div class="item-estado">

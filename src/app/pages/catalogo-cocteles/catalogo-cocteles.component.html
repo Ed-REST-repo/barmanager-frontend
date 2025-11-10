@@ -3,13 +3,55 @@
     <h1>🍹 Catálogo de Cocteles</h1>
   </div>
 
+  <!-- filtro dificultad -->
+  <div class="filtros-container">
+    <div 
+      class="filtro-chip facil"
+      [class.activo]="esDificultadActiva('Facil')"
+      (click)="filtrarPorDificultad('Facil')">
+      Facil
+    </div>
+    <div 
+      class="filtro-chip media"
+      [class.activo]="esDificultadActiva('Media')"
+      (click)="filtrarPorDificultad('Media')">
+      Media
+    </div>
+    <div 
+      class="filtro-chip dificil"
+      [class.activo]="esDificultadActiva('Dificil')"
+      (click)="filtrarPorDificultad('Dificil')">
+      Dificil
+    </div>
+    <div 
+      class="filtro-chip experto"
+      [class.activo]="esDificultadActiva('Experto')"
+      (click)="filtrarPorDificultad('Experto')">
+      🔥 Experto
+    </div>
+  </div>
+
   <div *ngIf="loading" class="loading">
     <mat-spinner></mat-spinner>
   </div>
 
-  <div *ngIf="!loading" class="grid">
-    <mat-card *ngFor="let coctel of cocteles" class="coctel-card" 
+  <!-- no hay resultados -->
+  <div *ngIf="!loading && coctelesFiltrados.length === 0" class="sin-resultados">
+    <mat-icon>search_off</mat-icon>
+    <h3>No hay cocteles con esta dificultad</h3>
+    <p>Intenta otro filtro</p>
+  </div>
+
+  <div *ngIf="!loading && coctelesFiltrados.length > 0" class="grid">
+    <mat-card *ngFor="let coctel of coctelesFiltrados" class="coctel-card" 
               (click)="verDetalle(coctel.coctelId)">
+      
+      <div *ngIf="coctel.dificultad" 
+           class="dificultad-badge"
+           [ngClass]="getDificultadClass(coctel.dificultad)">
+        {{ coctel.dificultad }}
+      </div>
+      
       <div class="card-icon">🍸</div>
       
       <mat-card-header>

@@ -21,6 +21,7 @@ export interface CoctelDisponibilidad {
   nombreCoctel: string;
   descripcion: string;
   categoria: string;
+  dificultad: string;
   estado: 'DISPONIBLE' | 'PREPARABLE_CON_SUSTITUCIONES' | 'NO_DISPONIBLE';
   ingredientesDisponibles: number;
   ingredientesTotales: number;
