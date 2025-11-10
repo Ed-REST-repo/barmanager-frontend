@@ -16,13 +16,41 @@ export class CoctelesService {
   }
 
   obtenerDetalle(id: number): Observable<CoctelDetallado> {
-    return this.apiService.get<CoctelDetallado>(`/v2/cocteles/${id}/receta-detallada`);
+    return this.apiService.get<CoctelDetallado>(
+      `/v2/cocteles/${id}/receta-detallada`
+    );
   }
 
-  prepararCoctel(coctelId: number, bartenderId: number): Observable<any> {
+  prepararCoctel(
+    coctelId: number, 
+    bartenderId: number, 
+    permitirSustituciones: boolean = true
+  ): Observable<any> {
     return this.apiService.post(`/v2/cocteles/${coctelId}/preparar`, {
       bartenderId,
-      permitirSustituciones: true
+      permitirSustituciones
     });
+  }
+
+  buscarCocteles(
+    categoria?: string,
+    dificultad?: string,
+    tiempoMaximo?: number,
+    soloDisponibles: boolean = false
+  ): Observable<CoctelDisponibilidad[]> {
+    let params = `?soloDisponibles=${soloDisponibles}`;
+    if (categoria) params += `&categoria=${categoria}`;
+    if (dificultad) params += `&dificultad=${dificultad}`;
+    if (tiempoMaximo) params += `&tiempoMaximo=${tiempoMaximo}`;
+    
+    return this.apiService.get<CoctelDisponibilidad[]>(
+      `/v2/cocteles/buscar${params}`
+    );
+  }
+
+  obtenerSugerencias(): Observable<CoctelDisponibilidad[]> {
+    return this.apiService.get<CoctelDisponibilidad[]>(
+      '/v2/cocteles/sugerencias'
+    );
   }
 }
