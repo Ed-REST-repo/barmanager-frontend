@@ -1,5 +1,11 @@
 # BarManagerFrontend
 
+## Vista Bartender
+![bartender-gif](https://github.com/user-attachments/assets/2183bc04-7291-4e07-befb-9f9258f43dd3)
+
+## Vista Admin
+![admin-gif](https://github.com/user-attachments/assets/20a8c668-99b2-4a6b-accd-36dcc9c05828)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.21.
 
 ## Development server
