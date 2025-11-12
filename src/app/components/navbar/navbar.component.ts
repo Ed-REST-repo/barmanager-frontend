@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
-
-// Angular Material imports:
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -17,19 +15,28 @@ import { MatMenuModule } from '@angular/material/menu';
     MatToolbarModule,
     MatButtonModule,
     MatIconModule,
-    MatMenuModule
+    MatMenuModule,
+    RouterModule
   ],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
   constructor(
-    public authService: AuthService,
-    public router: Router
+    public router: Router,
+    private authService: AuthService
   ) {}
+
+  navegarA(ruta: string) {
+    this.router.navigate([ruta]);
+  }
 
   getUser() {
     return this.authService.getUser();
+  }
+
+  isAdmin(): boolean {
+    return this.authService.getUserRole() === 'ADMINISTRADOR';
   }
 
   logout() {

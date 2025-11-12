@@ -105,3 +105,29 @@ export interface InsumosBajoStock {
   precio: number;
   unidad: string;
 }
+
+export interface CoctelEstadistica {
+  nombre: string;
+  preparaciones: number;
+  categoria: string;
+  dificultad: string;
+}
+
+export interface InsumoEstadistica {
+  nombre: string;
+  vecesUtilizado: number;
+  tipo: string;
+  disponible: number;
+}
+
+export interface DificultadEstadistica {
+  dificultad: string;
+  preparaciones: number;
+}
+
+export interface ResumenGeneral {
+  coctelesMasPreparados: CoctelEstadistica[];
+  insumosMasUtilizados: InsumoEstadistica[];
+  preparacionesPorDificultad: DificultadEstadistica[];
+  totalPreparaciones: number;
+}

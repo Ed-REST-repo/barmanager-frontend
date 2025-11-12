@@ -3,17 +3,32 @@ import { CatalogoCoctelesComponent } from './pages/catalogo-cocteles/catalogo-co
 import { LoginComponent } from './pages/login/login.component';
 import { DetalleCoctelComponent } from './pages/detalle-coctel/detalle-coctel.component';
 import { InventarioComponent } from './pages/inventario/inventario.component';
+import { DashboardEstadisticasComponent } from './pages/estadisticas/dashboard-estadisticas.component';
 import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  { path: '', component: CatalogoCoctelesComponent },
+  { path: '', redirectTo: '/cocteles', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'cocteles/:id', component: DetalleCoctelComponent },
+  { 
+    path: 'cocteles', 
+    component: CatalogoCoctelesComponent,
+    canActivate: [AuthGuard]
+  },
+  { 
+    path: 'cocteles/:id', 
+    component: DetalleCoctelComponent,
+    canActivate: [AuthGuard]
+  },
   {
     path: 'inventario',
     component: InventarioComponent,
     canActivate: [AuthGuard],
     data: { roles: ['ADMINISTRADOR'] }
   },
-  { path: '**', redirectTo: '' }
+  {
+    path: 'estadisticas',
+    component: DashboardEstadisticasComponent,
+    canActivate: [AuthGuard]
+  },
+  { path: '**', redirectTo: '/cocteles' }
 ];

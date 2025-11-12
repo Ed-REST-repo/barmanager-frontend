@@ -1,7 +1,28 @@
 <mat-toolbar color="primary">
-  <span class="brand" (click)="router.navigate(['/cocteles'])">
+  <span class="brand" (click)="navegarA('/cocteles')">
     🍹 Bar Manager
   </span>
+  
+  <div class="nav-links">
+    <a mat-button routerLink="/cocteles" routerLinkActive="active">
+      <mat-icon>local_bar</mat-icon>
+      Cocteles
+    </a>
+    
+    <a mat-button routerLink="/estadisticas" routerLinkActive="active">
+      <mat-icon>bar_chart</mat-icon>
+      Estadisticas
+    </a>
+    
+    <a mat-button 
+       routerLink="/inventario" 
+       routerLinkActive="active"
+       *ngIf="isAdmin()">
+      <mat-icon>inventory_2</mat-icon>
+      Inventario
+    </a>
+  </div>
+  
   <span class="spacer"></span>
   <span class="user-name">{{ getUser()?.nombre }}</span>
   <button mat-icon-button [matMenuTriggerFor]="menu">

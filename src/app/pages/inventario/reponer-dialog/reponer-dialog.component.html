@@ -18,11 +18,11 @@
     <div class="info-stats">
       <div class="stat">
         <span class="label">Actual:</span>
-        <span class="value">{{ insumo.cantidadDisponible }} {{ insumo.unidad?.abreviatura }}</span>
+        <span class="value">{{ insumo.cantidadDisponible }} {{ insumo.unidad.abreviatura }}</span>
       </div>
       <div class="stat">
         <span class="label">Mínimo:</span>
-        <span class="value">{{ insumo.cantidadMinima }} {{ insumo.unidad?.abreviatura }}</span>
+        <span class="value">{{ insumo.cantidadMinima }} {{ insumo.unidad.abreviatura }}</span>
       </div>
       <div class="stat">
         <span class="label">Precio Unit.:</span>
@@ -36,7 +36,7 @@
     <mat-form-field class="full-width" appearance="outline">
       <mat-label>Cantidad a Reponer</mat-label>
       <input matInput type="number" formControlName="cantidad" min="1">
-      <span matSuffix>{{ insumo.unidad?.abreviatura }}</span>
+      <span matSuffix>{{ insumo.unidad.abreviatura }}</span>
       <mat-icon matPrefix>inventory</mat-icon>
       <mat-error *ngIf="reponerForm.get('cantidad')?.hasError('required')">
         La cantidad es requerida
@@ -65,7 +65,7 @@
         <mat-icon>trending_up</mat-icon>
         <div>
           <p class="preview-label">Nuevo Total</p>
-          <p class="preview-value">{{ getNuevoTotal() }} {{ insumo.unidad?.abreviatura }}</p>
+          <p class="preview-value">{{ getNuevoTotal() }} {{ insumo.unidad.abreviatura }}</p>
         </div>
       </div>
       <div class="preview-item">
