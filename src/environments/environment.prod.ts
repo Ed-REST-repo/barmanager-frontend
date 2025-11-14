@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://my-api.com/api'
+  apiUrl: 'https://barmanager-api.onrender.com/api'
 };
